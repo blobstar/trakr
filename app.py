@@ -1,46 +1,30 @@
 from re import DEBUG
 from flask import Flask, render_template
+import pymysql
+from fetchJobs import fetch_all_jobs
 
 app = Flask(__name__)
 
 #adding a fake db
 
-JOBS = [
-  {
-    'id': 1,
-    'testType': 'Accounting Records',
-    'client': 'TestClient1',
-    'entity': 'Entity1',
-  },
-  {
-    'id': 2,
-    'testType': 'Employee Costs',
-    'client': 'TestClient2',
-    'enttiy': 'Entity1',
-  },
-  {
-    'id': 3,
-    'testType': 'Property Plant and Equipment',
-    'client': 'TestClient3',
-    'entity': 'Entity1',
-  },
-  {
-    'id': 4,
-    'testType': 'Forensics',
-    'client': 'TestClient4',
-    'entity': 'Entity1',
-  },
-  {
-    'id': 5,
-    'testType': 'Accounting Outsource Services',
-    'client': 'TestClient4',
-    'entity': 'Entity2',
-  }
-]
 
+#def load_jobs_fromd_db():
+#  with cursor.connect() as conn:
+ #   result = conn.execute("SELECT * FROM jobs")
+  #  jobs = [] 
+   # for row in result.all():
+    #  jobs.append(dict(row))
+    #return jobs
+
+
+
+
+  
 @app.route('/')
 def hello_world():
-    return render_template('home.html',jobs=JOBS)
+    jobs = fetch_all_jobs();
+    print(fetch_all_jobs())
+    return render_template('home.html',jobs=jobs)
 
 
 if __name__ == '__main__':
