@@ -4,27 +4,25 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add New Job</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form id="jobForm">
                     <div class="form-group">
                         <label for="testType">Test Type</label>
-                        <input type="text" class="form-control" id="testType" required>
+                        <input type="text" class="form-control" id="testType" name="testType" required>
                     </div>
                     <div class="form-group">
                         <label for="client">Client</label>
-                        <input type="text" class="form-control" id="client" required>
+                        <input type="text" class="form-control" id="client" name="client" required>
                     </div>
                     <div class="form-group">
                         <label for="entity">Entity</label>
-                        <input type="text" class="form-control" id="entity" required>
+                        <input type="text" class="form-control" id="entity" name="entity" required>
                     </div>
                     <div class="form-group">
                         <label for="assignedTo">Assigned To</label>
-                        <input type="text" class="form-control" id="assignedTo" required>
+                        <input type="text" class="form-control" id="assignedTo" name="assignedTo" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
@@ -32,3 +30,45 @@
         </div>
     </div>
 </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+        // Handle job form submission
+        $('#jobForm').on('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            $.ajax({
+                type: 'POST',
+                url: '/submit-job',
+                data: $(this).serialize(), // Serialize the form data
+                success: function(response) {
+                    alert('Job added successfully!');
+                    $('#exampleModal').modal('hide'); // Close the modal
+                    location.reload(); // Optionally reload the page to reflect changes
+                },
+                error: function(error) {
+                    alert('Error adding job!');
+                }
+            });
+        });
+
+        // Handle job deletion
+        $(document).on('click', '.btn-delete', function() {
+            const jobId = $(this).data('job-id');
+
+            $.ajax({
+                type: 'DELETE',
+                url: `/delete-job/${jobId}`,
+                success: function(response) {
+                    alert('Job deleted successfully!');
+                    $(this).closest('.row').remove(); // Remove the job item from the DOM
+                }.bind(this),
+                error: function(error) {
+                    alert('Error deleting job!');
+                }
+            });
+        });
+    });
+  </script>

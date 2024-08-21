@@ -7,8 +7,33 @@
     <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
       <button type="button" class="btn btn-outline-primary">Update</button>
       <button type="button" class="btn btn-outline-success">Complete</button>
-      <button type="button" class="btn btn-outline-danger">Delete</button>
+      <button type="button" class="btn btn-outline-danger" data-job-id="{{job['id']}}" onclick="deleteJob(this)">Delete</button>
     </div>
   </div>
-
 </div>
+<script>
+function deleteJob(button) {
+    var jobId = button.getAttribute('data-job-id');
+
+    fetch(`/delete-job/${jobId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            // Remove the job item from the DOM
+            button.closest('.row').remove();
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while deleting the job.');
+    });
+}
+</script>
+
