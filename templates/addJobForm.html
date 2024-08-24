@@ -1,4 +1,3 @@
-<!-- The Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -32,43 +31,3 @@
 </div>
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    $(document).ready(function() {
-        // Handle job form submission
-        $('#jobForm').on('submit', function(e) {
-            e.preventDefault(); // Prevent the default form submission
-
-            $.ajax({
-                type: 'POST',
-                url: '/submit-job',
-                data: $(this).serialize(), // Serialize the form data
-                success: function(response) {
-                    alert('Job added successfully!');
-                    $('#exampleModal').modal('hide'); // Close the modal
-                    location.reload(); // Optionally reload the page to reflect changes
-                },
-                error: function(error) {
-                    alert('Error adding job!');
-                }
-            });
-        });
-
-        // Handle job deletion
-        $(document).on('click', '.btn-delete', function() {
-            const jobId = $(this).data('job-id');
-
-            $.ajax({
-                type: 'DELETE',
-                url: `/delete-job/${jobId}`,
-                success: function(response) {
-                    alert('Job deleted successfully!');
-                    $(this).closest('.row').remove(); // Remove the job item from the DOM
-                }.bind(this),
-                error: function(error) {
-                    alert('Error deleting job!');
-                }
-            });
-        });
-    });
-  </script>

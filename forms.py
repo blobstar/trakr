@@ -13,3 +13,10 @@ class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+
+class AddJobForm(FlaskForm):
+    test_type = StringField('Test Type', validators=[DataRequired()])
+    client = StringField('Client', validators=[DataRequired()])
+    entity = StringField('Entity', validators=[DataRequired()])
+    assigned_to = StringField('Assigned To', validators=[DataRequired()])
+    submit = SubmitField('Submit')

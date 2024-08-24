@@ -1,24 +1,16 @@
 from re import DEBUG
 from flask import Flask
 from flask_login import login_user, logout_user, current_user, login_required, LoginManager
-
+import os
 from routes import init_routes
-from models import get_user_by_id
+from flask_wtf.csrf import CSRFProtect
 
 
 
 app = Flask(__name__)
-  
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+csrf = CSRFProtect(app)
 
-# Initialize Flask-Login
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
-
-# User loader function
-@login_manager.user_loader
-def load_user(user_id):
-    return get_user_by_id(user_id)
 
 init_routes(app)
 

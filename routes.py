@@ -6,29 +6,47 @@ from models import User, get_user_by_id, get_db_connection
 from fetchJobs import fetch_all_jobs
 from add_project import add_project
 from del_project import del_project
+from flask_wtf.csrf import CSRFProtect
+
 
 login_manager = LoginManager()
+
 
 def init_routes(app):
     @app.route('/register', methods=['GET', 'POST'])
     def register():
+        print("Register route accessed")
         form = RegistrationForm()
+        print("Form instantiated")
+
         if form.validate_on_submit():
-            hashed_password = generate_password_hash(form.password.data, method='sha256')
+            print("Form validated successfully")
+            if form.password.data:
+                hashed_password = generate_password_hash(form.password.data, method='pbkdf2:sha256')
+                print("hashed")
+            else:
+                flash('Password cannot be empty', 'danger')
+                return redirect(url_for('register'))
+
             connection = get_db_connection()
             with connection.cursor() as cursor:
                 cursor.execute('INSERT INTO users (username, email, password) VALUES (%s, %s, %s)',
                                (form.username.data, form.email.data, hashed_password))
                 connection.commit()
+                print("posted")
             connection.close()
             flash('Your account has been created!', 'success')
             return redirect(url_for('login'))
+        else:
+            print("Form validation failed:", form.errors)
+
         return render_template('register.html', form=form)
 
     @app.route('/login', methods=['GET', 'POST'])
     def login():
         form = LoginForm()
         if form.validate_on_submit():
+            print("under the water")
             connection = get_db_connection()
             with connection.cursor() as cursor:
                 cursor.execute('SELECT * FROM users WHERE email = %s', (form.email.data,))
@@ -37,9 +55,12 @@ def init_routes(app):
             if user and user['password'] is not None and check_password_hash(user['password'], form.password.data):
                 user_obj = User(user['id'], user['username'], user['email'], user['password'])
                 login_user(user_obj, remember=True)
+                print("success")
                 return redirect(url_for('home'))
+                
             else:
                 flash('Login unsuccessful. Please check email and password', 'danger')
+                print("please help")
         return render_template('login.html', form=form)
 
     @app.route('/dashboard')
