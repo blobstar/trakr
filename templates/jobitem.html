@@ -1,11 +1,11 @@
 <div class="row gx-16" style="margin-bottom:16px; padding:16px; border: 2px solid #ccc; border-radius: 10px; width: 100%; box-sizing: border-box;">
   <div class="col-9">
-    <h4 style="color:rgb(120,120,120); margin-bottom:4px;">{{job['testType']}}</h4>
-    <div><b>Client:</b> {{job['client']}}</div>
+    <h4 class="job-testType" style="color:rgb(120,120,120); margin-bottom:4px;">{{job['testType']}}</h4>
+    <div class="job-client"><b>Client:</b> {{job['client']}}</div>
   </div>
   <div class="col-3">
     <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
-      <button type="button" class="btn btn-outline-primary">Update</button>
+      <button type="button" class="btn btn-outline-primary" onclick="updateJob(this)">Update</button>
       <button type="button" class="btn btn-outline-success">Complete</button>
       <button type="button" class="btn btn-outline-danger" data-job-id="{{job['id']}}" onclick="deleteJob(this)">Delete</button>
     </div>
@@ -14,7 +14,7 @@
 <script>
 function deleteJob(button) {
     var jobId = button.getAttribute('data-job-id');
-
+    console.log('conworking');
     fetch(`/delete-job/${jobId}`, {
         method: 'DELETE',
         headers: {
@@ -24,16 +24,49 @@ function deleteJob(button) {
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
+            // Debug: Log the response and the element being removed
+            console.log('Delete successful:', data);
+            console.log('Removing element:', button.closest('.row'));
             // Remove the job item from the DOM
             button.closest('.row').remove();
+            console.log('Element removed:');
+        } else {
+            console.error('Server response error:', data.message);
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+        alert('An error occurred while deleting the job.');
+    });
+}
+function updateJob(jobId) {
+    const updatedData = {
+        testType: document.getElementById(`testType-${jobId}`).value,
+        client: document.getElementById(`client-${jobId}`).value,
+    };
+
+    fetch(`/update-job/${jobId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            // Update the DOM with the new data
+            const job = data.job;
+            document.querySelector(`#job-${jobId} .job-testType`).innerText = job.testType;
+            document.querySelector(`#job-${jobId} .job-client`).innerText = job.client;
         } else {
             alert('Error: ' + data.message);
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('An error occurred while deleting the job.');
+        alert('An error occurred while updating the job.');
     });
 }
 </script>
-

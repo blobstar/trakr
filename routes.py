@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, flash, jsonify, req
 from flask_login import LoginManager, login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import RegistrationForm, LoginForm
-from models import User, get_user_by_id, get_db_connection
+from models import User, get_db_connection
 from fetchJobs import fetch_all_jobs
 from add_project import add_project
 from del_project import del_project
@@ -41,27 +41,6 @@ def init_routes(app):
             print("Form validation failed:", form.errors)
 
         return render_template('register.html', form=form)
-
-    @app.route('/login', methods=['GET', 'POST'])
-    def login():
-        form = LoginForm()
-        if form.validate_on_submit():
-            print("under the water")
-            connection = get_db_connection()
-            with connection.cursor() as cursor:
-                cursor.execute('SELECT * FROM users WHERE email = %s', (form.email.data,))
-                user = cursor.fetchone()
-            connection.close()
-            if user and user['password'] is not None and check_password_hash(user['password'], form.password.data):
-                user_obj = User(user['id'], user['username'], user['email'], user['password'])
-                login_user(user_obj, remember=True)
-                print("success")
-                return redirect(url_for('home'))
-                
-            else:
-                flash('Login unsuccessful. Please check email and password', 'danger')
-                print("please help")
-        return render_template('login.html', form=form)
 
     @app.route('/dashboard')
     @login_required

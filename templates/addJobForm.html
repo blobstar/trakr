@@ -1,33 +1,35 @@
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add New Job</h5>
-                <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="jobForm">
-                    <div class="form-group">
-                        <label for="testType">Test Type</label>
-                        <input type="text" class="form-control" id="testType" name="testType" required>
+<div class="modal fade" id="createItemModal" tabindex="-1" role="dialog" aria-labelledby="createItemModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createItemModalLabel">Create New Item</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label for="client">Client</label>
-                        <input type="text" class="form-control" id="client" name="client" required>
+                    <div class="modal-body">
+                        <form id="createItemForm" method="POST" action="/items">
+                            {{ form.hidden_tag() }}
+                            <div class="form-group">
+                                {{ form.testType.label }}
+                                {{ form.testType(class="form-control") }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.client.label }}
+                                {{ form.client(class="form-control") }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.entity.label }}
+                                {{ form.entity(class="form-control") }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.assignedTo.label }}
+                                {{ form.assignedTo(class="form-control") }}
+                            </div>
+                            <div id="responseMessage"></div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="entity">Entity</label>
-                        <input type="text" class="form-control" id="entity" name="entity" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="assignedTo">Assigned To</label>
-                        <input type="text" class="form-control" id="assignedTo" name="assignedTo" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
-

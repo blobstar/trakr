@@ -1,22 +1,22 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Email, EqualTo
+from wtforms import StringField, TextAreaField
+from wtforms.validators import DataRequired
 
-class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Sign Up')
+#job_data = {
+#    'testType': test_type,
+#    'client': client,
+#    'entity': entity,
+#    'assignedTo': assigned_to
+#}
 
-class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Login')
+class ItemForm(FlaskForm):
+    
+    testType = StringField('testType', validators=[DataRequired()], render_kw={"class": "form-control"})
+    
+    client = StringField('client', validators=[DataRequired()], render_kw={"class": "form-control"})
+    
+    entity = StringField('entity', validators=[DataRequired()], render_kw={"class": "form-control"})
+    
+    assignedTo = StringField('assignedTo', validators=[DataRequired()], render_kw={"class": "form-control"})
+    
 
-class AddJobForm(FlaskForm):
-    test_type = StringField('Test Type', validators=[DataRequired()])
-    client = StringField('Client', validators=[DataRequired()])
-    entity = StringField('Entity', validators=[DataRequired()])
-    assigned_to = StringField('Assigned To', validators=[DataRequired()])
-    submit = SubmitField('Submit')
