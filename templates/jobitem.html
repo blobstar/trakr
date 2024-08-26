@@ -5,9 +5,9 @@
   </div>
   <div class="col-3">
     <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
-      <button type="button" class="btn btn-outline-primary" onclick="updateJob(this)">Update</button>
+      <button type="button" class="btn btn-outline-primary" data-job-id="{{job['id']}}" onclick="loadUpdateForm(this)">Update</button>
       <button type="button" class="btn btn-outline-success">Complete</button>
-      <button type="button" class="btn btn-outline-danger" data-job-id="{{job['id']}}" onclick="deleteJob(this)">Delete</button>
+      <button type="button" class="btn btn-outline-danger" data-job-id="{{job['id']}}"  onclick="deleteJob(this)">Delete</button>
     </div>
   </div>
 </div>
@@ -40,33 +40,61 @@ function deleteJob(button) {
         alert('An error occurred while deleting the job.');
     });
 }
-function updateJob(jobId) {
-    const updatedData = {
-        testType: document.getElementById(`testType-${jobId}`).value,
-        client: document.getElementById(`client-${jobId}`).value,
-    };
-
-    fetch(`/update-job/${jobId}`, {
-        method: 'POST',
+function loadUpdateForm(jobId) {
+    var jobId = jobId.getAttribute('data-job-id');
+    console.log(jobId)
+    // Redirect to the route that renders the form with initial data
+    fetch(`/get-job/${jobId}`, {
+        method: 'GET',  // Use GET for retrieving data
         headers: {
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedData)
+        }
     })
     .then(response => response.json())
     .then(data => {
+        console.log(data);
         if (data.status === 'success') {
-            // Update the DOM with the new data
-            const job = data.job;
-            document.querySelector(`#job-${jobId} .job-testType`).innerText = job.testType;
-            document.querySelector(`#job-${jobId} .job-client`).innerText = job.client;
+            new bootstrap.Modal(document.querySelector("#updateJobModal")).show();
+            // Set job ID in the hidden field
+            document.querySelector('#jobId').value = jobId;
+            const form = document.querySelector('#updateItemForm');
+            form.action = `/update-job/${jobId}`;
+            console.log("Form action URL set to:", form.action);
+            document.querySelector('#updateJobModal #testType').value = data.testType || '';
+            document.querySelector('#updateJobModal #client').value = data.client || '';
+            document.querySelector('#updateJobModal #entity').value = data.entity || '';
+            document.querySelector('#updateJobModal #assignedTo').value = data.assignedTo || '';
         } else {
-            alert('Error: ' + data.message);
+            alert("Error retrieving job item");
         }
     })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred while updating the job.');
-    });
+    .catch(error => console.error('Error:', error));
+    
+}
+function updateJob(jobId) {
+    console.log("js working");
+
+    var jobId = jobId.getAttribute('data-job-id');
+    
+
+    fetch(`/update-job/${jobId}`, {
+        method: 'PUT',  // Changed to PUT
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'refID': jobId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        if (data.status === 'success') {
+            alert("Item updated successfully");
+        } else {
+            alert("Error updating item");
+        }
+    })
+    .catch(error => console.error('Error:', error));
 }
 </script>

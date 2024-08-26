@@ -1,0 +1,36 @@
+<div class="modal fade" id="updateJobModal" tabindex="-1" role="dialog" aria-labelledby="createItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createItemModalLabel">Update</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="updateItemForm" method="POST" action="/update-job/{{ job_id }}">
+                    {{ form.hidden_tag() }}
+                    <input type="hidden" id="jobId" name="jobId">
+                    <div class="form-group">
+                        {{ form.testType.label }}
+                        {{ form.testType(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.client.label }}
+                        {{ form.client(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.entity.label }}
+                        {{ form.entity(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.assignedTo.label }}
+                        {{ form.assignedTo(class="form-control") }}
+                    </div>
+                    <div id="responseMessage"></div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

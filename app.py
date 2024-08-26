@@ -52,6 +52,7 @@ def get_db_connection():
         cursorclass=pymysql.cursors.DictCursor
     )
 
+# CREATE
 @app.route('/items', methods=['POST'])
 #@csrf.exempt  # Temporarily exempting from CSRF to simplify testing
 def create_item():
@@ -92,24 +93,27 @@ def home():
     return render_template('home.html', jobs=jobs, form=form)
 
 # Update
-@app.route('/items/<int:id>', methods=['PUT'])
+@app.route('/update-job/<int:id>', methods=['POST'])
 @csrf.exempt  # Temporarily exempting from CSRF to simplify testing
 def update_item(id):
+    print("in update route")
+    # Ensure the request is JSON
     form = ItemForm(request.form)
+    print(form.testType.data)
     if form.validate():
         testType = form.testType.data
         client = form.client.data
         entity = form.entity.data
         assignedTo = form.assignedTo.data
-
         connection = get_db_connection()
         with connection.cursor() as cursor:
-            cursor.execute('UPDATE items SET testType = %s, client = %s, entity = %s, assignedTo = %s WHERE id = %s', (testType, client, entity, assignedTo, id))
-            connection.commit()
+            cursor.execute('UPDATE jobs SET testType = %s, client = %s, entity = %s, assignedTo = %s WHERE id = %s',(testType, client, entity, assignedTo, id))
+        connection.commit()
         connection.close()
+        return jsonify({'status': 'success', 'redirect_url': url_for('home')})
+    return jsonify({'status':'catastrophe'})
+    
 
-        return jsonify({'status': 'success', 'message': 'Item deleted successfully'})
-    return jsonify({'message': 'Invalid data'}), 400
 
 # Delete
 @app.route('/delete-job/<int:id>', methods=['DELETE'])
@@ -127,6 +131,32 @@ def delete_item(id):
 @app.errorhandler(CSRFError)
 def handle_csrf_error(e):
     return jsonify({'message': 'CSRF token missing or incorrect'}), 400
+
+# get a specific job
+@app.route('/get-job/<int:job_id>', methods=['GET'])
+def get_job(job_id):
+    # Fetch job data from the database
+    connection = get_db_connection()
+    with connection.cursor() as cursor:
+        cursor.execute('SELECT testType, client, entity, assignedTo FROM jobs WHERE id = %s', (job_id,))
+        job = cursor.fetchone()
+
+    if not job:
+        return jsonify({'message': 'Job not found'}), 404
+
+    # Convert fetched data into a dictionary
+    job_data = {
+        'testType': job['testType'],
+        'client': job['client'],
+        'entity': job['entity'],
+        'assignedTo': job['assignedTo']
+    }
+
+    # Initialize the form with the job data
+    ItemForm(data=job_data)
+
+    return jsonify({'status': 'success', 'message': 'Found the Job!', 'testType': job['testType'], 'client': job['client'], 'entity': job['entity'], 'assignedTo': job['assignedTo']})
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
