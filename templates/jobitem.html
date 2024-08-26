@@ -1,4 +1,4 @@
-<div class="row gx-16" style="margin-bottom:16px; padding:16px; border: 2px solid #ccc; border-radius: 10px; width: 100%; box-sizing: border-box;">
+<div class="row gx-16" style="margin-bottom:16px; padding:16px; border: 2px solid #1c1c1e; background-color: #1c1c1e; border-radius: 10px; width: 100%; box-sizing: border-box;">
   <div class="col-9">
     <h4 class="job-testType" style="color:rgb(120,120,120); margin-bottom:4px;">{{job['testType']}}</h4>
     <div class="job-client"><b>Client:</b> {{job['client']}}</div>
@@ -11,6 +11,7 @@
     </div>
   </div>
 </div>
+
 <script>
 function deleteJob(button) {
     var jobId = button.getAttribute('data-job-id');

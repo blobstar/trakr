@@ -110,7 +110,7 @@ def update_item(id):
             cursor.execute('UPDATE jobs SET testType = %s, client = %s, entity = %s, assignedTo = %s WHERE id = %s',(testType, client, entity, assignedTo, id))
         connection.commit()
         connection.close()
-        return jsonify({'status': 'success', 'redirect_url': url_for('home')})
+        return redirect(url_for('home'))
     return jsonify({'status':'catastrophe'})
     
 
