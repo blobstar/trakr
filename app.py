@@ -7,7 +7,7 @@ from wtforms.validators import DataRequired
 import pymysql.cursors
 from dotenv import load_dotenv
 import os
-from forms import ItemForm
+from forms import ClientForm
 
 #test
 #test2
@@ -57,7 +57,7 @@ def get_db_connection():
 #@csrf.exempt  # Temporarily exempting from CSRF to simplify testing
 def create_item():
     print("route success")
-    form = ItemForm(request.form)
+    form = ClientForm(request.form)
     if form.validate():
         testType = form.testType.data
         client = form.client.data
@@ -78,7 +78,7 @@ def create_item():
 # Read
 @app.route('/', methods=['GET'])
 def home():
-    form = ItemForm()
+    form = ClientForm()
     connection = get_db_connection()
     with connection.cursor() as cursor:
         cursor.execute('SELECT * FROM jobs')
@@ -98,7 +98,7 @@ def home():
 def update_item(id):
     print("in update route")
     # Ensure the request is JSON
-    form = ItemForm(request.form)
+    form = ClientForm(request.form)
     print(form.testType.data)
     if form.validate():
         testType = form.testType.data
@@ -153,7 +153,7 @@ def get_job(job_id):
     }
 
     # Initialize the form with the job data
-    ItemForm(data=job_data)
+    ClientForm(data=job_data)
 
     return jsonify({'status': 'success', 'message': 'Found the Job!', 'testType': job['testType'], 'client': job['client'], 'entity': job['entity'], 'assignedTo': job['assignedTo']})
 

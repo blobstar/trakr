@@ -9,7 +9,7 @@ from wtforms.validators import DataRequired
 #    'assignedTo': assigned_to
 #}
 
-class ItemForm(FlaskForm):
+class ClientForm(FlaskForm):
     testType = StringField('Test Type', 
                            validators=[DataRequired()], 
                            render_kw={"class": "form-control", "id": "testType"})
