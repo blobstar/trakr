@@ -67,7 +67,7 @@ def create_item():
         connection = get_db_connection()
         with connection.cursor() as cursor:
             print("con")
-            cursor.execute('INSERT INTO jobs (testType, client, entity, assignedTo) VALUES (%s, %s, %s, %s)', (testType, client,entity,assignedTo))
+            cursor.execute('INSERT INTO clients (name) VALUES (%s)', (client))
             connection.commit()
         connection.close()
 
@@ -75,9 +75,26 @@ def create_item():
         return redirect(url_for('home'))
     return jsonify({'message': 'Invalid data'}), 400
 
-# Read
+# Read home
 @app.route('/', methods=['GET'])
 def home():
+    form = ClientForm()
+    connection = get_db_connection()
+    with connection.cursor() as cursor:
+        cursor.execute('SELECT * FROM jobs')
+        items = cursor.fetchall()
+    connection.close()
+    jobs = [] 
+    for row in items:
+        jobs.append(dict(row))
+    print("jobs result",jobs)    
+    jobs.reverse()
+
+    return render_template('home.html', jobs=jobs, form=form)
+
+# Read projects
+@app.route('/Projects', methods=['GET'])
+def projectHome():
     form = ClientForm()
     connection = get_db_connection()
     with connection.cursor() as cursor:
@@ -107,7 +124,7 @@ def update_item(id):
         assignedTo = form.assignedTo.data
         connection = get_db_connection()
         with connection.cursor() as cursor:
-            cursor.execute('UPDATE jobs SET testType = %s, client = %s, entity = %s, assignedTo = %s WHERE id = %s',(testType, client, entity, assignedTo, id))
+            cursor.execute('UPDATE jobs SET name = %s WHERE id = %s',(name, id))
         connection.commit()
         connection.close()
         return redirect(url_for('home'))
@@ -138,7 +155,7 @@ def get_job(job_id):
     # Fetch job data from the database
     connection = get_db_connection()
     with connection.cursor() as cursor:
-        cursor.execute('SELECT testType, client, entity, assignedTo FROM jobs WHERE id = %s', (job_id,))
+        cursor.execute('SELECT name WHERE id = %s', (job_id,))
         job = cursor.fetchone()
 
     if not job:
@@ -146,16 +163,13 @@ def get_job(job_id):
 
     # Convert fetched data into a dictionary
     job_data = {
-        'testType': job['testType'],
-        'client': job['client'],
-        'entity': job['entity'],
-        'assignedTo': job['assignedTo']
+        'client': job['name']
     }
 
     # Initialize the form with the job data
     ClientForm(data=job_data)
 
-    return jsonify({'status': 'success', 'message': 'Found the Job!', 'testType': job['testType'], 'client': job['client'], 'entity': job['entity'], 'assignedTo': job['assignedTo']})
+    return jsonify({'status': 'success', 'message': 'Found the Job!', 'testType': job['name']})
 
 
 if __name__ == '__main__':

@@ -10,20 +10,23 @@ from wtforms.validators import DataRequired
 #}
 
 class ClientForm(FlaskForm):
-    testType = StringField('Test Type', 
-                           validators=[DataRequired()], 
-                           render_kw={"class": "form-control", "id": "testType"})
-
     client = StringField('Client', 
                          validators=[DataRequired()], 
-                         render_kw={"class": "form-control", "id": "client"})
+                         render_kw={"class": "form-control", "id": "client-name"})
 
-    entity = StringField('Entity', 
+class TestForm(FlaskForm):
+    client = StringField('Test', 
                          validators=[DataRequired()], 
-                         render_kw={"class": "form-control", "id": "entity"})
+                         render_kw={"class": "form-control", "id": "test-name"})
 
-    assignedTo = StringField('Assigned To', 
-                             validators=[DataRequired()], 
-                             render_kw={"class": "form-control", "id": "assignedTo"})
+class JobForm(FlaskForm):
+    client = StringField('Job', 
+                         validators=[DataRequired()], 
+                         render_kw={"class": "form-control", "id": "job-name"})
+
+class TaskForm(FlaskForm):
+    client = StringField('Task', 
+                         validators=[DataRequired()], 
+                         render_kw={"class": "form-control", "id": "task-name"})
     
 
