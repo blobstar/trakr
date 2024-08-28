@@ -3,8 +3,15 @@
     Add New Client
 </button>
 <div style="padding:25px;">
+    <div style="display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: baseline;
+        align-content: flex-start;">
     {% for client in clients %}
       {% include 'clientItem.html' %}  
     {% endfor %}
+    </div>
 </div>
 </div>

@@ -1,18 +1,20 @@
-<div class="row gx-16" style="margin-bottom:16px; padding:16px; border: 2px solid #1c1c1e; background-color: #1c1c1e; border-radius: 10px; width: 100%; box-sizing: border-box;">
-  <div class="col-9">
-    <h4 class="client-testType" style="margin-bottom:4px;">{{client['name']}}</h4>
-  </div>
-  <div class="col-3">
-    <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
-      
-        <button type="button" class="btn btn-outline-primary" data-client-id="{{client['id']}}" onclick="loadUpdateForm(this)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>Edit</button>
-      
-        <button type="button" class="btn btn-outline-success"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>Complete</button>
-        
-        <button type="button" class="btn btn-outline-danger" data-client-id="{{client['id']}}"  onclick="deleteClient(this)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>Delete</button>
-    </div>
+<div class="card" style="margin-bottom:20px; margin-right:20px; max-width:400px">
+  <h5 class="card-header">{{client['name']}}</h5>
+  <div class="card-body">
+    <h5 class="card-title">FY24</h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <div class="btn-group d-flex" role="group" aria-label="Horizontal stretch button group">
+
+          <button type="button" class="btn btn-outline-primary" data-client-id="{{client['id']}}" onclick="loadUpdateForm(this)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>Edit</button>
+
+          <button type="button" class="btn btn-outline-success"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>Complete</button>
+
+          <button type="button" class="btn btn-outline-danger" data-client-id="{{client['id']}}"  onclick="deleteClient(this)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>Delete</button>
+      </div>
   </div>
 </div>
+
+
 
 <script>
 function deleteClient(button) {
@@ -29,9 +31,9 @@ function deleteClient(button) {
         if (data.status === 'success') {
             // Debug: Log the response and the element being removed
             console.log('Delete successful:', data);
-            console.log('Removing element:', button.closest('.row'));
+            console.log('Removing element:', button.closest('.card'));
             // Remove the client item from the DOM
-            button.closest('.row').remove();
+            button.closest('.card').remove();
             console.log('Element removed:');
         } else {
             console.error('Server response error:', data.message);
