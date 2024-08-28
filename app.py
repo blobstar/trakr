@@ -59,10 +59,7 @@ def create_item():
     print("route success")
     form = ClientForm(request.form)
     if form.validate():
-        testType = form.testType.data
         client = form.client.data
-        entity = form.entity.data
-        assignedTo = form.assignedTo.data
 
         connection = get_db_connection()
         with connection.cursor() as cursor:
@@ -71,7 +68,7 @@ def create_item():
             connection.commit()
         connection.close()
 
-        flash('Your job has been created!', 'success')
+        flash('Your client has been created!', 'success')
         return redirect(url_for('home'))
     return jsonify({'message': 'Invalid data'}), 400
 
@@ -81,16 +78,15 @@ def home():
     form = ClientForm()
     connection = get_db_connection()
     with connection.cursor() as cursor:
-        cursor.execute('SELECT * FROM jobs')
+        cursor.execute('SELECT * FROM clients')
         items = cursor.fetchall()
     connection.close()
-    jobs = [] 
+    clients = [] 
     for row in items:
-        jobs.append(dict(row))
-    print("jobs result",jobs)    
-    jobs.reverse()
+        clients.append(dict(row)) 
+    clients.reverse()
 
-    return render_template('home.html', jobs=jobs, form=form)
+    return render_template('home.html', clients=clients, form=form)
 
 # Read projects
 @app.route('/Projects', methods=['GET'])
@@ -98,33 +94,29 @@ def projectHome():
     form = ClientForm()
     connection = get_db_connection()
     with connection.cursor() as cursor:
-        cursor.execute('SELECT * FROM jobs')
+        cursor.execute('SELECT * FROM tests')
         items = cursor.fetchall()
     connection.close()
-    jobs = [] 
+    tests = [] 
     for row in items:
-        jobs.append(dict(row))
-    print("jobs result",jobs)    
-    jobs.reverse()
+        tests.append(dict(row))  
+    tests.reverse()
 
-    return render_template('home.html', jobs=jobs, form=form)
+    return render_template('home.html', tests=tests, form=form)
 
 # Update
-@app.route('/update-job/<int:id>', methods=['POST'])
+@app.route('/update-client/<int:id>', methods=['POST'])
 @csrf.exempt  # Temporarily exempting from CSRF to simplify testing
 def update_item(id):
-    print("in update route")
+    #print("in update route")
     # Ensure the request is JSON
     form = ClientForm(request.form)
-    print(form.testType.data)
+    #print(form.testType.data)
     if form.validate():
-        testType = form.testType.data
         client = form.client.data
-        entity = form.entity.data
-        assignedTo = form.assignedTo.data
         connection = get_db_connection()
         with connection.cursor() as cursor:
-            cursor.execute('UPDATE jobs SET name = %s WHERE id = %s',(name, id))
+            cursor.execute('UPDATE clients SET name = %s WHERE id = %s',(client, id))
         connection.commit()
         connection.close()
         return redirect(url_for('home'))
@@ -133,12 +125,12 @@ def update_item(id):
 
 
 # Delete
-@app.route('/delete-job/<int:id>', methods=['DELETE'])
+@app.route('/delete-client/<int:id>', methods=['DELETE'])
 @csrf.exempt  # Temporarily exempting from CSRF to simplify testing
 def delete_item(id):
     connection = get_db_connection()
     with connection.cursor() as cursor:
-        cursor.execute('DELETE FROM jobs WHERE id = %s', (id,))
+        cursor.execute('DELETE FROM clients WHERE id = %s', (id,))
         connection.commit()
     connection.close()
 
@@ -149,27 +141,27 @@ def delete_item(id):
 def handle_csrf_error(e):
     return jsonify({'message': 'CSRF token missing or incorrect'}), 400
 
-# get a specific job
-@app.route('/get-job/<int:job_id>', methods=['GET'])
-def get_job(job_id):
-    # Fetch job data from the database
+# get a specific client
+@app.route('/get-client/<int:client_id>', methods=['GET'])
+def get_client(client_id):
+    # Fetch client data from the database
     connection = get_db_connection()
     with connection.cursor() as cursor:
-        cursor.execute('SELECT name WHERE id = %s', (job_id,))
-        job = cursor.fetchone()
+        cursor.execute('SELECT name FROM clients WHERE id = %s', (client_id,))
+        client = cursor.fetchone()
 
-    if not job:
-        return jsonify({'message': 'Job not found'}), 404
+    if not client:
+        return jsonify({'message': 'Client not found'}), 404
 
     # Convert fetched data into a dictionary
-    job_data = {
-        'client': job['name']
+    client_data = {
+        'client': client['name']
     }
 
-    # Initialize the form with the job data
-    ClientForm(data=job_data)
+    # Initialize the form with the client data
+    ClientForm(data=client_data)
 
-    return jsonify({'status': 'success', 'message': 'Found the Job!', 'testType': job['name']})
+    return jsonify({'status': 'success', 'message': 'Found the Client!', 'client': client['name']})
 
 
 if __name__ == '__main__':

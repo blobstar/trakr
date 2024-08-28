@@ -1,0 +1,101 @@
+<div class="row gx-16" style="margin-bottom:16px; padding:16px; border: 2px solid #1c1c1e; background-color: #1c1c1e; border-radius: 10px; width: 100%; box-sizing: border-box;">
+  <div class="col-9">
+    <h4 class="client-testType" style="margin-bottom:4px;">{{client['name']}}</h4>
+  </div>
+  <div class="col-3">
+    <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
+      
+        <button type="button" class="btn btn-outline-primary" data-client-id="{{client['id']}}" onclick="loadUpdateForm(this)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>Edit</button>
+      
+        <button type="button" class="btn btn-outline-success"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>Complete</button>
+        
+        <button type="button" class="btn btn-outline-danger" data-client-id="{{client['id']}}"  onclick="deleteClient(this)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>Delete</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function deleteClient(button) {
+    var clientId = button.getAttribute('data-client-id');
+    console.log('conworking');
+    fetch(`/delete-client/${clientId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            // Debug: Log the response and the element being removed
+            console.log('Delete successful:', data);
+            console.log('Removing element:', button.closest('.row'));
+            // Remove the client item from the DOM
+            button.closest('.row').remove();
+            console.log('Element removed:');
+        } else {
+            console.error('Server response error:', data.message);
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+        alert('An error occurred while deleting the client.');
+    });
+}
+function loadUpdateForm(clientId) {
+    var clientId = clientId.getAttribute('data-client-id');
+    console.log(clientId)
+    // Redirect to the route that renders the form with initial data
+    fetch(`/get-client/${clientId}`, {
+        method: 'GET',  // Use GET for retrieving data
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        if (data.status === 'success') {
+            new bootstrap.Modal(document.querySelector("#updateClientModal")).show();
+            // Set client ID in the hidden field
+            document.querySelector('#clientId').value = clientId;
+            const form = document.querySelector('#updateItemForm');
+            form.action = `/update-client/${clientId}`;
+            console.log("Form action URL set to:", form.action);
+            // #updateClientModal is in update_client.py and #client-name is in forms.py
+            document.querySelector('#updateClientModal #clientName').value = data.client || '';
+        } else {
+            alert("Error retrieving client item");
+        }
+    })
+    .catch(error => console.error('Error4:', error));
+    
+}
+function updateClient(clientId) {
+    console.log("js working");
+
+    var clientId = clientId.getAttribute('data-client-id');
+    
+
+    fetch(`/update-client/${clientId}`, {
+        method: 'PUT',  // Changed to PUT
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'refID': clientId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        if (data.status === 'success') {
+            alert("Item updated successfully");
+        } else {
+            alert("Error updating item");
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+</script>

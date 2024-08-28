@@ -10,20 +10,8 @@
                         <form id="createItemForm" method="POST" action="/items">
                             {{ form.hidden_tag() }}
                             <div class="form-group">
-                                {{ form.testType.label }}
-                                {{ form.testType(class="form-control") }}
-                            </div>
-                            <div class="form-group">
                                 {{ form.client.label }}
                                 {{ form.client(class="form-control") }}
-                            </div>
-                            <div class="form-group">
-                                {{ form.entity.label }}
-                                {{ form.entity(class="form-control") }}
-                            </div>
-                            <div class="form-group">
-                                {{ form.assignedTo.label }}
-                                {{ form.assignedTo(class="form-control") }}
                             </div>
                             <div id="responseMessage"></div>
                             <button type="submit" class="btn btn-primary">Submit</button>

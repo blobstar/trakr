@@ -12,21 +12,21 @@ from wtforms.validators import DataRequired
 class ClientForm(FlaskForm):
     client = StringField('Client', 
                          validators=[DataRequired()], 
-                         render_kw={"class": "form-control", "id": "client-name"})
+                         render_kw={"class": "form-control", "id": "clientName"})
 
 class TestForm(FlaskForm):
     client = StringField('Test', 
                          validators=[DataRequired()], 
-                         render_kw={"class": "form-control", "id": "test-name"})
+                         render_kw={"class": "form-control", "id": "testName"})
 
 class JobForm(FlaskForm):
     client = StringField('Job', 
                          validators=[DataRequired()], 
-                         render_kw={"class": "form-control", "id": "job-name"})
+                         render_kw={"class": "form-control", "id": "jobName"})
 
 class TaskForm(FlaskForm):
     client = StringField('Task', 
                          validators=[DataRequired()], 
-                         render_kw={"class": "form-control", "id": "task-name"})
+                         render_kw={"class": "form-control", "id": "taskName"})
     
 
