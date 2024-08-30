@@ -19,7 +19,9 @@
     
     
     {% include 'addClientForm.html' %} 
-    {% include 'update_client.html' %}  
+    {% include 'update_client.html' %}
+    {% include 'deleteClientConfirmation.html' %}
+    {% include 'toasts/crudToast.html' %}
     
   </head>
   <body class="bg-dark text-white">
@@ -37,5 +39,11 @@ document.getElementById('btnSwitch').addEventListener('click', () => {
     }
 });
 </script>
+    <!-- Other scripts and Bootstrap JS -->
+    <script src="static/Client_scripts.js"></script>
+    <script src="static/Test_scripts.js"></script>
+    <script src="static/Job_scripts.js"></script>
+    <script src="static/Task_scripts.js"></script>
+
   </body>
 </html>

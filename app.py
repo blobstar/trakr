@@ -54,7 +54,7 @@ def get_db_connection():
 
 # CREATE
 @app.route('/items', methods=['POST'])
-#@csrf.exempt  # Temporarily exempting from CSRF to simplify testing
+@csrf.exempt  # Temporarily exempting from CSRF to simplify testing
 def create_item():
     print("route success")
     form = ClientForm(request.form)
@@ -136,7 +136,7 @@ def delete_item(id):
 
     return jsonify({'status': 'success', 'message': 'Item deleted successfully'})
 
-# Error handling
+# Error handling for CSRF
 @app.errorhandler(CSRFError)
 def handle_csrf_error(e):
     return jsonify({'message': 'CSRF token missing or incorrect'}), 400
