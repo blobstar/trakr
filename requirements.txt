@@ -3,3 +3,5 @@ gunicorn
 pymysql
 cryptography
 python-dotenv
+Flask-WTF
+WTForms
