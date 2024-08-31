@@ -3,11 +3,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="createItemModalLabel">Update</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close" aria-label="Close">
                 </button>
             </div>
             <div class="modal-body">
-                <form id="updateItemForm" method="POST" action="/update-client/{{ client_id }}">
+                <form id="updateItemForm" method="POST" onsubmit="submitForm(event)">
                     {{ form.hidden_tag() }}
                     <input type="hidden" id="clientId" name="clientId">
                     <div class="form-group">
@@ -15,7 +15,7 @@
                         {{ form.client(class="form-control") }}
                     </div>
                     <div id="responseMessage"></div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
                 </form>
             </div>
         </div>

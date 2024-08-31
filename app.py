@@ -69,7 +69,7 @@ def create_item():
         connection.close()
 
         flash('Your client has been created!', 'success')
-        return redirect(url_for('home'))
+        return jsonify({'status': 'success', 'message': 'Client created successfully'}), 200
     return jsonify({'message': 'Invalid data'}), 400
 
 # Read home
@@ -106,7 +106,7 @@ def projectHome():
 
 # Update
 @app.route('/update-client/<int:id>', methods=['POST'])
-@csrf.exempt  # Temporarily exempting from CSRF to simplify testing
+#@csrf.exempt  # Temporarily exempting from CSRF to simplify testing
 def update_item(id):
     #print("in update route")
     # Ensure the request is JSON
@@ -117,9 +117,9 @@ def update_item(id):
         connection = get_db_connection()
         with connection.cursor() as cursor:
             cursor.execute('UPDATE clients SET name = %s WHERE id = %s',(client, id))
-        connection.commit()
+            connection.commit()
         connection.close()
-        return redirect(url_for('home'))
+        return jsonify({'status': 'success', 'message': 'Client created successfu'}), 200
     return jsonify({'status':'catastrophe'})
     
 
