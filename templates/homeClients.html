@@ -1,0 +1,9 @@
+{% extends 'home.html' %}
+
+{% block content %}
+  {% include 'addClientForm.html' %} 
+  {% include 'update_client.html' %}
+  {% include 'deleteClientConfirmation.html' %}
+  {% include 'toasts/crudToast.html' %}
+  {% include 'allClients.html' %}
+{% endblock %}

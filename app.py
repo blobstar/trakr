@@ -86,7 +86,7 @@ def home():
         clients.append(dict(row)) 
     clients.reverse()
 
-    return render_template('home.html', clients=clients, form=form)
+    return render_template('homeClients.html', clients=clients, form=form)
 
 # Read projects
 @app.route('/Projects', methods=['GET'])
@@ -162,6 +162,20 @@ def get_client(client_id):
     ClientForm(data=client_data)
 
     return jsonify({'status': 'success', 'message': 'Found the Client!', 'client': client['name']})
+
+
+@app.route('/client/<int:client_id>/tests')
+def view_client_tests(client_id):
+    connection = get_db_connection()
+    with connection.cursor() as cursor:
+        cursor.execute('SELECT * FROM tests WHERE clientID = %s', (client_id,))
+        items = cursor.fetchall()
+    connection.close()
+    tests = [] 
+    for row in items:
+        tests.append(dict(row)) 
+    tests.reverse()
+    return render_template('client_tests.html', client_id=client_id, tests=tests)
 
 
 if __name__ == '__main__':

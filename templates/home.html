@@ -2,9 +2,7 @@
 <html data-bs-theme="dark">
   <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>
-      trakr
-    </title>
+    <title>{% block title %} {% endblock %}trakr</title>
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,19 +12,18 @@
     <div class="alert alert-info" role="alert" style="margin-top:9px;">
       Still in development in Branch/main. Some features may not work as intended, use at your own peril.
     </div>
+    
   {% include 'subnav.html' %}
     
     
     
-    {% include 'addClientForm.html' %} 
-    {% include 'update_client.html' %}
-    {% include 'deleteClientConfirmation.html' %}
-    {% include 'toasts/crudToast.html' %}
+    
     
   </head>
   <body class="bg-dark text-white">
-    {% include 'allClients.html' %}
-    
+    <div class="content">
+      {% block content %} {% endblock %}
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 <script>
@@ -40,10 +37,10 @@ document.getElementById('btnSwitch').addEventListener('click', () => {
 });
 </script>
     <!-- Other scripts and Bootstrap JS -->
-    <script src="static/Client_scripts.js"></script>
-    <script src="static/Test_scripts.js"></script>
-    <script src="static/Job_scripts.js"></script>
-    <script src="static/Task_scripts.js"></script>
+    <script src="{{ url_for('static', filename='Client_scripts.js') }}"></script>
+    <script src="{{ url_for('static', filename='Test_scripts.js') }}"></script>
+    <script src="{{ url_for('static', filename='Job_scripts.js') }}"></script>
+    <script src="{{ url_for('static', filename='Task_scripts.js') }}"></script>
 
   </body>
 </html>
