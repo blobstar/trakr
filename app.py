@@ -208,6 +208,18 @@ def createTestInClient(client_id):
         return jsonify({'status': 'success', 'message': 'Client created successfully'}), 200
     return jsonify({'message': 'Invalid data'}), 400
 
+# Delete
+@app.route('/delete-test/<int:id>', methods=['DELETE'])
+@csrf.exempt  # Temporarily exempting from CSRF to simplify testing
+def delete_test(id):
+    connection = get_db_connection()
+    with connection.cursor() as cursor:
+        cursor.execute('DELETE FROM tests WHERE id = %s', (id,))
+        connection.commit()
+    connection.close()
+
+    return jsonify({'status': 'success', 'message': 'Test deleted successfully'})
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
