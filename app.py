@@ -7,7 +7,7 @@ from wtforms.validators import DataRequired
 import pymysql.cursors
 from dotenv import load_dotenv
 import os
-from forms import ClientForm
+from forms import ClientForm, TestForm, JobForm, TaskForm
 
 #test
 #test2
@@ -163,19 +163,47 @@ def get_client(client_id):
 
     return jsonify({'status': 'success', 'message': 'Found the Client!', 'client': client['name']})
 
-
 @app.route('/client/<int:client_id>/tests')
 def view_client_tests(client_id):
+    form = TestForm(request.form)
     connection = get_db_connection()
-    with connection.cursor() as cursor:
-        cursor.execute('SELECT * FROM tests WHERE clientID = %s', (client_id,))
-        items = cursor.fetchall()
-    connection.close()
-    tests = [] 
-    for row in items:
-        tests.append(dict(row)) 
-    tests.reverse()
-    return render_template('client_tests.html', client_id=client_id, tests=tests)
+    try:
+        # Get the specific tests for that client ID
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT * FROM tests WHERE clientID = %s', (client_id,))
+            items = cursor.fetchall()
+        tests = [dict(row) for row in items]
+        tests.reverse()
+
+        # Get the client name
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT * FROM clients WHERE id = %s', (client_id,))
+            client_name_result = cursor.fetchone()
+        clientName = client_name_result['name'] if client_name_result else 'Unknown Client'
+
+    finally:
+        connection.close()
+
+    return render_template('client_tests.html', client_id=client_id, test=tests, clientName=clientName, form=form, client=client_id)
+
+
+@app.route('/createTestInClient/<int:client_id>', methods=['POST'])
+@csrf.exempt  # Temporarily exempting from CSRF to simplify testing
+def createTestInClient(client_id):
+    form = TestForm(request.form)
+    if form.validate():
+        test = form.test.data
+        print("form valid")
+        connection = get_db_connection()
+        with connection.cursor() as cursor:
+            print("connected to sql")
+            cursor.execute('INSERT INTO tests (ClientID, name) VALUES (%s, %s)', (client_id, test))
+            connection.commit()
+        connection.close()
+
+        flash('Your client has been created!', 'success')
+        return jsonify({'status': 'success', 'message': 'Client created successfully'}), 200
+    return jsonify({'message': 'Invalid data'}), 400
 
 
 if __name__ == '__main__':

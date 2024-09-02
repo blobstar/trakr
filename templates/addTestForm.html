@@ -1,17 +1,17 @@
-<div class="modal fade" id="createItemModal" tabindex="-1" role="dialog" aria-labelledby="createItemModalLabel" aria-hidden="true">
+<div class="modal fade" id="createTestModal" tabindex="-1" role="dialog" aria-labelledby="createItemModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="createItemModalLabel">Create New Client</h5>
+                        <h5 class="modal-title" id="createItemModalLabel">Create New Test</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="createItemForm" method="POST" onsubmit="submitForm(event)">
+                        <form id="createTestForm" method="POST" onsubmit="submitFormTest(event)">
                             {{ form.hidden_tag() }}
                             <div class="form-group">
-                                {{ form.client.label }}
-                                {{ form.client(class="form-control") }}
+                                {{ form.test.label }}
+                                {{ form.test(class="form-control") }}
                             </div>
                             <div id="responseMessage"></div>
                             <button type="submit" class="btn btn-primary">Submit</button>
