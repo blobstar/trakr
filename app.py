@@ -101,6 +101,7 @@ def projectHome():
     for row in items:
         tests.append(dict(row))  
     tests.reverse()
+    
 
     return render_template('home.html', tests=tests, form=form)
 
@@ -172,8 +173,10 @@ def view_client_tests(client_id):
         with connection.cursor() as cursor:
             cursor.execute('SELECT * FROM tests WHERE clientID = %s', (client_id,))
             items = cursor.fetchall()
-        tests = [dict(row) for row in items]
-        tests.reverse()
+            tests = [] 
+            for row in items:
+                tests.append(dict(row)) 
+            tests.reverse()
 
         # Get the client name
         with connection.cursor() as cursor:
