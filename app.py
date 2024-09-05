@@ -13,14 +13,6 @@ import re
 from forms import ClientForm, TestForm, JobForm, TaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
-#test
-#test2
-
-
-
-
-
 load_dotenv()
 
 app = Flask(__name__)
@@ -259,8 +251,6 @@ def update_item(id):
         return jsonify({'status': 'success', 'message': 'Client created successfu'}), 200
     return jsonify({'status':'catastrophe'})
     
-
-
 # Delete
 @app.route('/delete-client/<int:id>', methods=['DELETE'])
 @csrf.exempt  # Temporarily exempting from CSRF to simplify testing
@@ -325,7 +315,6 @@ def view_client_tests(client_id):
 
     return render_template('client_tests.html', client_id=client_id, test=tests, clientName=clientName, form=form, client=client_id)
 
-
 @app.route('/createTestInClient/<int:client_id>', methods=['POST'])
 @csrf.exempt  # Temporarily exempting from CSRF to simplify testing
 def createTestInClient(client_id):
@@ -355,7 +344,6 @@ def delete_test(id):
     connection.close()
 
     return jsonify({'status': 'success', 'message': 'Test deleted successfully'})
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
