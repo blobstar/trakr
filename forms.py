@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField
+from wtforms import StringField, SelectField
 from wtforms.validators import DataRequired
 
 #job_data = {
@@ -20,7 +20,10 @@ class ClientForm(FlaskForm):
 
 
 class TestForm(FlaskForm):
-    test = StringField('Test',
+    test = SelectField('Test',
+                       choices=[("Employee Costs", "Employee Costs"),
+                                ("Accounting Records", "Accounting Records"),
+                                ("Property Plant and Equipment", "Property Plant and Equipment")],
                        validators=[DataRequired()],
                        render_kw={
                            "class": "form-control",

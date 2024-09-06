@@ -1,9 +1,35 @@
-<div class="card overflow-hidden" style="margin-bottom:20px; margin-right:20px; max-width:400px">
-    <a href="{{client['url']}}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
-      <h5 class="card-header">{{client['name']}}</h5>
-    </a>
+<div class="card bg-dark-subtle overflow-hidden" style="margin-bottom:20px; margin-right:20px; max-width:400px">
+    
   <div class="bg-dark-subtle card-body">
-      <span class="badge text-bg-primary">FY24</span>
+      <a href="{{client['url']}}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+        <h5>{{client['name']}}</h5>
+      </a>
+      <!-- Icon -->
+      <div style = "padding-top:15px;padding-bottom:10px;">
+          <button type="button" class="btn btn-outline-light position-relative" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tests" data-client-id="{{client['id']}}" onclick="loadClientTests(this)"><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-light">
+                {{ tests | selectattr('ClientID', 'equalto', client['id']) | list | length }}
+              <span class="visually-hidden">unread messages</span>
+            </span>
+          </button>
+          <div class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Jobs">
+          <button type="button" class="btn btn-outline-light position-relative" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Jobs" disabled><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-light">
+                0
+                <span class="visually-hidden">unread messages</span>
+              </span>
+            </button>
+          </div>
+          <div class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tasks">
+            <button type="button" class="btn btn-outline-light position-relative" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tasks" disabled><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-light">
+                  0
+                  <span class="visually-hidden">unread messages</span>
+                </span>
+              </button>
+          </div>
+      </div>
+      <span class="badge text-bg-light">FY24</span>
     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
           <div class="btn-group d-flex" role="group" aria-label="Horizontal stretch button group">
 
@@ -15,4 +41,11 @@
       </div>
   </div>
 </div>
+    <script>
+        // Initialize tooltips after the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        });
+    </script>
 

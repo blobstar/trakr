@@ -205,16 +205,29 @@ def home():
     current_user = get_jwt_identity()
     form = ClientForm()
     connection = get_db_connection()
-    with connection.cursor() as cursor:
-        cursor.execute('SELECT * FROM clients')
-        items = cursor.fetchall()
-    connection.close()
-    clients = [] 
-    for row in items:
-        clients.append(dict(row)) 
-    clients.reverse()
+    try: #get all clients
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT * FROM clients')
+            items = cursor.fetchall()
+        clients = [] 
+        for row in items:
+            clients.append(dict(row)) 
+        clients.reverse()
+        # get all tests
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT * FROM tests')
+            test = cursor.fetchall()
+        tests = [] 
+        for row in test:
+            tests.append(dict(row)) 
+        tests.reverse()
+        print(tests)
 
-    return render_template('homeClients.html', clients=clients, user = current_user['username'], form=form)
+    finally:
+        connection.close()
+
+return render_template('homeClients.html', clients=clients, form=form, tests=tests, user = current_user['username'])
+
 
 # Read projects
 @app.route('/Projects', methods=['GET'])
