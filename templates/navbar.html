@@ -38,6 +38,12 @@
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
+
+       <!-- Welcome Message and Sign Out Button -->
+       <div class="text-end d-flex flex-column align-items-end">
+        <h5 class="mb-1">Welcome, {{ user }}!</h5>
+        <a class="btn btn-outline-danger" href="{{ url_for('logout')}}">Sign Out</a>
+      </div>
     </div>
   </div>
 </nav>
