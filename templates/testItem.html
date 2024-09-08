@@ -1,18 +1,23 @@
-<div class="card" style="margin-bottom:20px; margin-right:20px; max-width:400px">
+<div class="card bg-dark-subtle overflow-hidden" style="margin-bottom:20px; margin-right:20px;">
+    
+  <div class="bg-dark-subtle card-body">
     <a href="{{client['url']}}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
-      <h5 class="card-header">{{tests['name']}}</h5>
+      <h5>{{tests['name']}}</h5>
     </a>
-  <div class="card-body">
       <span class="badge text-bg-primary">FY24</span>
     <p class="card-text">{{tests['id']}}</p>
-          <div class="btn-group d-flex" role="group" aria-label="Horizontal stretch button group">
-
-          <button type="button" class="btn btn-outline-primary" data-test-id="{{tests['id']}}" onclick="loadUpdateForm(this)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>Edit</button>
-
-              <button type="button" class="btn btn-outline-light" data-test-id="{{tests['id']}}" onclick="loadClientTests(this)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>  Jobs</button>
-
-          <button type="button" class="btn btn-outline-danger" data-test-id="{{tests['id']}}"  onclick="deleteTest(this)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>Delete</button>
-      </div>
+    <div class="btn-group d-flex" role="group" aria-label="Vertical stretch button group">
+  
+  </div>
+  <a class="icon-link icon-link-hover" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" href="#">
+    <svg class="bi" aria-hidden="true"><use xlink:href="#edit-icon"></use></svg>
+    Edit
+  </a>
+  <a class="icon-link icon-link-hover link-danger" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" href="#">
+    <svg class="bi" aria-hidden="true"><use xlink:href="#trash-icon"></use></svg>
+    Delete
+  </a>
+  
   </div>
 </div>
-
+</svg>

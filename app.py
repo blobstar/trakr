@@ -226,7 +226,7 @@ def home():
     finally:
         connection.close()
 
-return render_template('homeClients.html', clients=clients, form=form, tests=tests, user = current_user['username'])
+    return render_template('homeClients.html', clients=clients, form=form, tests=tests, user = current_user['username'])
 
 
 # Read projects
