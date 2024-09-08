@@ -4,15 +4,28 @@
     <a href="{{client['url']}}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
       <h5>{{tests['name']}}</h5>
     </a>
+    <!-- Icon -->
+    <div style = "padding-top:15px;padding-bottom:10px;">
+      <div class="d-inline-block">
+      <button type="button" class="btn btn-outline-light position-relative text-center"><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-light">
+            0
+            <span class="visually-hidden">unread messages</span>
+          </span><br>Jobs
+        </button>
+      </div>
+      <div class="d-inline-block">
+        <button type="button" class="btn btn-outline-light position-relative text-center" disabled><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-light">
+              0
+              <span class="visually-hidden">unread messages</span>
+            </span><br>Tasks
+          </button>
+      </div>
+  </div>
       <span class="badge text-bg-primary">FY24</span>
     <p class="card-text">{{tests['id']}}</p>
-    <div class="btn-group d-flex" role="group" aria-label="Vertical stretch button group">
-  
-  </div>
-  <a class="icon-link icon-link-hover" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" href="#">
-    <svg class="bi" aria-hidden="true"><use xlink:href="#edit-icon"></use></svg>
-    Edit
-  </a>
+    
   <a class="icon-link icon-link-hover link-danger" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" href="#" onclick="deleteTest(this)" data-test-id="{{tests['id']}}">
     <svg class="bi" aria-hidden="true"><use xlink:href="#trash-icon"></use></svg>
     Delete

@@ -23,7 +23,10 @@ class TestForm(FlaskForm):
     test = SelectField('Test',
                        choices=[("Employee Costs", "Employee Costs"),
                                 ("Accounting Records", "Accounting Records"),
-                                ("Property Plant and Equipment", "Property Plant and Equipment")],
+                                ("Property Plant and Equipment", "Property Plant and Equipment"),
+                                ("SAP to Kronos","SAP to Kronos"),
+                                ("Prelim AR's","Prelim AR's")
+                                ],
                        validators=[DataRequired()],
                        render_kw={
                            "class": "form-control",
