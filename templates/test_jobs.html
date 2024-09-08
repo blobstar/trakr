@@ -1,0 +1,22 @@
+{% extends 'home.html' %}
+
+{% block content %}
+{% include 'deleteClientConfirmation.html' %}
+{% include 'toasts/crudToast.html' %}
+{% include 'addJobForm.html' %}
+<button type="button" data-test-id="{{client}}" style="margin:8px" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#createTestModal"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+    Add New Job
+</button>
+<div style="padding:25px;">
+    <div style="display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: baseline;
+        align-content: flex-start;">
+    {% for jobs in job %}
+      {% include 'jobItem.html' %}  
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

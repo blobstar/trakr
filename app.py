@@ -221,12 +221,19 @@ def home():
         for row in test:
             tests.append(dict(row)) 
         tests.reverse()
-        print(tests)
+        # get all jobs
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT * FROM jobs')
+            job = cursor.fetchall()
+        jobs = [] 
+        for row in job:
+            jobs.append(dict(row)) 
+        jobs.reverse()
 
     finally:
         connection.close()
 
-    return render_template('homeClients.html', clients=clients, form=form, tests=tests, user = current_user['username'])
+    return render_template('homeClients.html', clients=clients, form=form, tests=tests, jobs=jobs, user = current_user['username'])
 
 
 # Read projects
@@ -303,6 +310,7 @@ def get_client(client_id):
 
     return jsonify({'status': 'success', 'message': 'Found the Client!', 'client': client['name']})
 
+# shows tests specific to a client
 @app.route('/client/<int:client_id>/tests')
 def view_client_tests(client_id):
     form = TestForm(request.form)
@@ -323,10 +331,20 @@ def view_client_tests(client_id):
             client_name_result = cursor.fetchone()
         clientName = client_name_result['name'] if client_name_result else 'Unknown Client'
 
+        # get the number of jobs for this test
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT * FROM jobs')
+            items = cursor.fetchall()
+            jobs = [] 
+            for row in items:
+                jobs.append(dict(row)) 
+            jobs.reverse()
+
+
     finally:
         connection.close()
 
-    return render_template('client_tests.html', client_id=client_id, test=tests, clientName=clientName, form=form, client=client_id)
+    return render_template('client_tests.html', client_id=client_id, test=tests, clientName=clientName, form=form, client=client_id, jobs=jobs)
 
 @app.route('/createTestInClient/<int:client_id>', methods=['POST'])
 @csrf.exempt  # Temporarily exempting from CSRF to simplify testing
