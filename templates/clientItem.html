@@ -15,7 +15,8 @@
           <div class="d-inline-block">
           <button type="button" class="btn btn-outline-light position-relative text-center" disabled><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-light">
-                0
+                {% set client_tests = tests | selectattr('ClientID', 'equalto', client['id']) | map(attribute='id') | list %}
+                {{ jobs | selectattr('TestID', 'in', client_tests) | list | length }}
                 <span class="visually-hidden">unread messages</span>
               </span><br>Jobs
             </button>
