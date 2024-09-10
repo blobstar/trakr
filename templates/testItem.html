@@ -1,4 +1,4 @@
-<div class="card bg-dark-subtle overflow-hidden" style="margin-bottom:20px; margin-right:20px;">
+<div class="card bg-dark-subtle overflow-hidden" style="margin-bottom:20px; margin-right:20px; max-width:400px">
     
   <div class="bg-dark-subtle card-body">
     <a href="{{client['url']}}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
@@ -7,7 +7,7 @@
     <!-- Icon -->
     <div style = "padding-top:15px;padding-bottom:10px;">
       <div class="d-inline-block">
-      <button type="button" class="btn btn-outline-light position-relative text-center"><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+      <button type="button" class="btn btn-outline-light position-relative text-center" data-test-id="{{tests['id']}}" onclick="loadTestJobs(this)"><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-light">
             0
             <span class="visually-hidden">unread messages</span>

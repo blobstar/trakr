@@ -346,6 +346,7 @@ def view_client_tests(client_id):
 
     return render_template('client_tests.html', client_id=client_id, test=tests, clientName=clientName, form=form, client=client_id, jobs=jobs)
 
+# create a test within clients
 @app.route('/createTestInClient/<int:client_id>', methods=['POST'])
 @csrf.exempt  # Temporarily exempting from CSRF to simplify testing
 def createTestInClient(client_id):
@@ -375,6 +376,47 @@ def delete_test(id):
     connection.close()
 
     return jsonify({'status': 'success', 'message': 'Test deleted successfully'})
+
+# shows jobs specific to a test
+@app.route('/test/<int:test_id>/jobs')
+def view_test_jobs(test_id):
+    form = JobForm(request.form)
+    connection = get_db_connection()
+    try:
+        # Get the specific tests for that client ID
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT * FROM jobs WHERE testID = %s', (test_id,))
+            items = cursor.fetchall()
+            jobs = [] 
+            for row in items:
+                jobs.append(dict(row)) 
+            jobs.reverse()
+
+
+    finally:
+        connection.close()
+
+    return render_template('test_jobs.html', test_id=test_id, form=form, jobs=jobs)
+
+# create a job within test
+@app.route('/createJobInTest/<int:test_id>', methods=['POST'])
+@csrf.exempt  # Temporarily exempting from CSRF to simplify testing
+def createJobInTest(test_id):
+    form = JobForm(request.form)
+    if form.validate():
+        job = form.job.data
+        print("form valid")
+        connection = get_db_connection()
+        with connection.cursor() as cursor:
+            print("connected to sql")
+            cursor.execute('INSERT INTO jobs (TestID, name) VALUES (%s, %s)', (test_id, job))
+            connection.commit()
+        connection.close()
+
+        flash('Your job has been created!', 'success')
+        return jsonify({'status': 'success', 'message': 'job created successfully'}), 200
+    return jsonify({'message': 'Invalid data'}), 400
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
