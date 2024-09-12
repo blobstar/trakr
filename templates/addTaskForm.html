@@ -1,0 +1,22 @@
+<div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createItemModalLabel">Create New Task</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createTaskForm" method="POST" onsubmit="submitFormTask(event)">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ form.task.label }}
+                        {{ form.task(class="form-control") }}
+                    </div>
+                    <div id="responseMessage"></div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

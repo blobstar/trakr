@@ -417,6 +417,46 @@ def createJobInTest(test_id):
         return jsonify({'status': 'success', 'message': 'job created successfully'}), 200
     return jsonify({'message': 'Invalid data'}), 400
 
+# shows tasks specific to a job
+@app.route('/job/<int:job_id>/tasks')
+def view_job_tasks(job_id):
+    form = TaskForm(request.form)
+    connection = get_db_connection()
+    try:
+        # Get the specific tests for that client ID
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT * FROM tasks WHERE JobID = %s', (job_id,))
+            items = cursor.fetchall()
+            tasks = [] 
+            for row in items:
+                tasks.append(dict(row)) 
+            tasks.reverse()
+
+
+    finally:
+        connection.close()
+
+    return render_template('job_tasks.html', job_id=job_id, form=form, tasks=tasks)
+
+# create a job within test
+@app.route('/createTaskInJob/<int:job_id>', methods=['POST'])
+@csrf.exempt  # Temporarily exempting from CSRF to simplify testing
+def createTaskInJob(job_id):
+    form = TaskForm(request.form)
+    if form.validate():
+        task = form.task.data
+        print("form valid")
+        connection = get_db_connection()
+        with connection.cursor() as cursor:
+            print("connected to sql")
+            cursor.execute('INSERT INTO tasks (JobID, name) VALUES (%s, %s)', (job_id, task))
+            connection.commit()
+        connection.close()
+
+        flash('Your job has been created!', 'success')
+        return jsonify({'status': 'success', 'message': 'Task created successfully'}), 200
+    return jsonify({'message': 'Invalid data'}), 400
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
