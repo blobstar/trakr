@@ -13,13 +13,13 @@ function submitFormTask(event) {
 
     // Serialize the form data
     const formData = new FormData(form);
-    var button = document.querySelector('button[data-task-id]');
-    testIdtoAddJob = button.getAttribute('data-task-id');
+    var button = document.querySelector('button[data-job-id]');
+    jobIdtoAddTask = button.getAttribute('data-job-id');
     //console.log(clientIdtoAddTest);
     //console.log(formData);
 
     // Send the POST request to the server
-    fetch(`/createTaskInJob/${testIdtoAddJob}`, {
+    fetch(`/createTaskInJob/${jobIdtoAddTask}`, {
         method: 'POST',
         body: formData,
     })

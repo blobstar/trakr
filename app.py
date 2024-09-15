@@ -443,6 +443,7 @@ def view_job_tasks(job_id):
 @csrf.exempt  # Temporarily exempting from CSRF to simplify testing
 def createTaskInJob(job_id):
     form = TaskForm(request.form)
+    print(form)
     if form.validate():
         task = form.task.data
         print("form valid")
