@@ -229,11 +229,19 @@ def home():
         for row in job:
             jobs.append(dict(row)) 
         jobs.reverse()
+        # get all tasks
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT * FROM tasks')
+            task = cursor.fetchall()
+        tasks = [] 
+        for row in task:
+            tasks.append(dict(row)) 
+        tasks.reverse()
 
     finally:
         connection.close()
 
-    return render_template('homeClients.html', clients=clients, form=form, tests=tests, jobs=jobs, user = current_user['username'])
+    return render_template('homeClients.html', clients=clients, form=form, tests=tests, jobs=jobs, tasks=tasks, user = current_user['username'])
 
 
 # Read projects
