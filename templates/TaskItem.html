@@ -1,9 +1,13 @@
 <div class="card bg-dark-subtle overflow-hidden" style="margin-bottom:20px; margin-right:20px; max-width:400px">
     
     <div class="bg-dark-subtle card-body">
-      <a href="" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
-        <h5>{{task['name']}}</h5>
-      </a>
+      <div class="d-flex align-items-center">
+        <input type="checkbox" class="btn-check" id="btn-check-2-outlined{{task['id']}}" autocomplete="off">
+        <label class="btn btn-outline-success" for="btn-check-2-outlined{{task['id']}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></label>
+        <a href="" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover me-3">
+          <h5>{{task['name']}}</h5>
+        </a>
+      </div>
       <!-- Icon -->
       <div style = "padding-top:15px;padding-bottom:10px;">
         <div class="d-inline-block">
