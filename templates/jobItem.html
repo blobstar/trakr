@@ -9,7 +9,7 @@
         <div class="d-inline-block">
         </div>
         <div class="d-inline-block">
-          <button type="button" class="btn btn-outline-light position-relative text-center" data-job-id="{{job['id']}}" onclick="loadJobTasks(this)"><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          <button type="button" class="btn btn-outline-light position-relative text-center" data-client-name="{{clientName}}" data-test-name="{{TestName}}" data-test-id="{{test_id}}" data-client-id="{{client_id}}" data-job-name="{{job['name']}}" data-job-id="{{job['id']}}" onclick="loadJobTasks(this)"><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-light">
                 0
                 <span class="visually-hidden">unread messages</span>
@@ -24,7 +24,6 @@
       <svg class="bi" aria-hidden="true"><use xlink:href="#trash-icon"></use></svg>
       Delete
     </a>
-    
     </div>
   </div>
   </svg>

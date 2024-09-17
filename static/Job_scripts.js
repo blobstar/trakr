@@ -1,8 +1,12 @@
 function loadTestJobs(button) {
     const testId = button.getAttribute('data-test-id');
+    const clientName = button.getAttribute('data-client-name');
+    const client_id = button.getAttribute('data-client-id');
+    const TestName = button.getAttribute('data-test-name');
 
     // Redirect to the route
-    window.location.href = `/test/${testId}/jobs`;
+    //<string:clientName>/<int:client_id>/<string:TestName>/<int:test_id>/jobs
+    window.location.href = `/${clientName}/${client_id}/${TestName}/${testId}/jobs`;
 }
 
 function submitFormJob(event) {

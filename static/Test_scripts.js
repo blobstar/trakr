@@ -1,8 +1,9 @@
 function loadClientTests(button) {
     const clientId = button.getAttribute('data-client-id');
+    const clientName = button.getAttribute('data-client-name');
 
     // Redirect to the route
-    window.location.href = `/client/${clientId}/tests`;
+    window.location.href = `/${clientName}/${clientId}/tests`;
 }
 
 function submitFormTest(event) {

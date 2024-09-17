@@ -319,8 +319,8 @@ def get_client(client_id):
     return jsonify({'status': 'success', 'message': 'Found the Client!', 'client': client['name']})
 
 # shows tests specific to a client
-@app.route('/client/<int:client_id>/tests')
-def view_client_tests(client_id):
+@app.route('/<string:clientName>/<int:client_id>/tests')
+def view_client_tests(client_id,clientName):
     form = TestForm(request.form)
     connection = get_db_connection()
     try:
@@ -332,12 +332,6 @@ def view_client_tests(client_id):
             for row in items:
                 tests.append(dict(row)) 
             tests.reverse()
-
-        # Get the client name
-        with connection.cursor() as cursor:
-            cursor.execute('SELECT * FROM clients WHERE id = %s', (client_id,))
-            client_name_result = cursor.fetchone()
-        clientName = client_name_result['name'] if client_name_result else 'Unknown Client'
 
         # get the number of jobs for this test
         with connection.cursor() as cursor:
@@ -386,8 +380,8 @@ def delete_test(id):
     return jsonify({'status': 'success', 'message': 'Test deleted successfully'})
 
 # shows jobs specific to a test
-@app.route('/test/<int:test_id>/jobs')
-def view_test_jobs(test_id):
+@app.route('/<string:clientName>/<int:client_id>/<string:TestName>/<int:test_id>/jobs')
+def view_test_jobs(clientName,client_id,TestName,test_id):
     form = JobForm(request.form)
     connection = get_db_connection()
     try:
@@ -404,7 +398,7 @@ def view_test_jobs(test_id):
     finally:
         connection.close()
 
-    return render_template('test_jobs.html', test_id=test_id, form=form, jobs=jobs)
+    return render_template('test_jobs.html', test_id=test_id, form=form, jobs=jobs, clientName=clientName, client_id=client_id, TestName=TestName)
 
 # create a job within test
 @app.route('/createJobInTest/<int:test_id>', methods=['POST'])
@@ -426,8 +420,8 @@ def createJobInTest(test_id):
     return jsonify({'message': 'Invalid data'}), 400
 
 # shows tasks specific to a job
-@app.route('/job/<int:job_id>/tasks')
-def view_job_tasks(job_id):
+@app.route('/<string:clientName>/<int:client_id>/<string:TestName>/<int:test_id>/<string:jobName>/<int:job_id>/tasks')
+def view_job_tasks(clientName,client_id,TestName,test_id,jobName,job_id):
     form = TaskForm(request.form)
     connection = get_db_connection()
     try:
@@ -444,7 +438,7 @@ def view_job_tasks(job_id):
     finally:
         connection.close()
 
-    return render_template('job_tasks.html', job_id=job_id, form=form, tasks=tasks)
+    return render_template('job_tasks.html', clientName=clientName, client_id=client_id, TestName=TestName, test_id=test_id, jobName=jobName, job_id=job_id, form=form, tasks=tasks)
 
 # create a job within test
 @app.route('/createTaskInJob/<int:job_id>', methods=['POST'])

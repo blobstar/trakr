@@ -1,8 +1,14 @@
 function loadJobTasks(button) {
+    const test_id = button.getAttribute('data-test-id');
+    const clientName = button.getAttribute('data-client-name');
+    const client_id = button.getAttribute('data-client-id');
+    const TestName = button.getAttribute('data-test-name');
+    const jobName = button.getAttribute('data-job-name');
     const jobId = button.getAttribute('data-job-id');
-
+    // /<string:clientName>/<int:client_id>/<string:TestName>/<int:test_id>/<string:jobName>/<int:job_id>/tasks
     // Redirect to the route
-    window.location.href = `/job/${jobId}/tasks`;
+    //
+    window.location.href = `/${clientName}/${client_id}/${TestName}/${test_id}/${jobName}/${jobId}/tasks`;
 }
 
 function submitFormTask(event) {
