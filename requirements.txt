@@ -6,3 +6,4 @@ python-dotenv
 Flask-WTF
 WTForms
 Flask-JWT-Extended
+email-validator
